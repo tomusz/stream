@@ -9,7 +9,6 @@ public class UserInputValidation {
     }
 
     public static boolean isNotEmpty(String string) {
-        return !string.replaceAll(" ","").isEmpty();
+        return !string.replaceAll(" ", "").isEmpty();
     }
-
 }

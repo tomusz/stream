@@ -11,5 +11,4 @@ public class StreamHandler {
     public static Set<String> convertUserInput(String userInput) {
         return Arrays.stream(userInput.split(";")).collect(Collectors.toSet());
     }
-
 }

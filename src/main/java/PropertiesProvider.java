@@ -2,8 +2,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class PropertiesProvider {
-
-    //TODO:check if the is any property
     public static Properties getProperties() {
         try {
             return FileHandler.loadFile("webpage.properties");
@@ -12,5 +10,4 @@ public class PropertiesProvider {
         }
         return null;
     }
-
 }
