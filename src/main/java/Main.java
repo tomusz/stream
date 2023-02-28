@@ -1,13 +1,8 @@
 import java.util.*;
-import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 public class Main {
 
-    static BiFunction<String, Set<String>, String> processPropertiesSecurely = (providedProperty, requiredEncodedProp) ->
-            requiredEncodedProp.contains(providedProperty) ? "******" : providedProperty;
-    static String[] sensualKeys = {"login","password","url"};
-    static Set<String> shouldBeEncoded = Arrays.stream(sensualKeys).collect(Collectors.toSet());
     public static void main(String[] args) {
         //TODO: code to ******
         //TODO: easy setting what should be coded by user use scanner with ; char separated
@@ -15,6 +10,7 @@ public class Main {
         //TODO:
         //TODO: validation
         //TODO: validation is list not empty
+        //TODO:non of properties match provided by you
         //TODO: properties holder
         //TODO: securedValues holder
         //TODO: method to encode values with streams
@@ -24,15 +20,19 @@ public class Main {
 //        properties.put("title", "Salt");
 //        properties.put("url", "www.angelina.hollywood");
 //        properties.put("errorMessage", "file has not been founded");
+        Set<String> expectedEncoded = StreamHandler.convertUserInput(UserInputProvider.getInputFromScanner());
         Properties properties = PropertiesProvider.getProperties();
-        Map<String, String> appProperties = getAppProperties(properties);
-        appProperties.forEach((k,v) -> System.out.println(k + " [" + v + "]"));
-//        System.out.println(appProperties.toString());
+        Map<String, String> appProperties = encodeAppProperties(properties,expectedEncoded);
+        printMapKeyAndValues(appProperties);
     }
-    public static Map<String, String> getAppProperties(Properties properties) {
+    public static Map<String, String> encodeAppProperties(Properties properties, Set<String> shouldBeEncoded) {
         return properties.entrySet().stream()
                 .map(x -> new KeyValuePair((String) x.getKey(),
-                        (processPropertiesSecurely.apply((String) x.getKey(),shouldBeEncoded))))
+                        (StreamHandler.processPropertiesSecurely.apply((String) x.getKey(),shouldBeEncoded))))
                 .collect(Collectors.toMap(KeyValuePair::getKey, KeyValuePair::getValue));
+    }
+
+    public static void printMapKeyAndValues(Map<String, String > map) {
+        map.forEach((k,v) -> System.out.println(k + " [" + v + "]"));
     }
 }
