@@ -18,20 +18,21 @@ public class Main {
         //TODO: properties holder
         //TODO: securedValues holder
         //TODO: method to encode values with streams
-        Map<String, String> properties = new HashMap();
-        properties.put("login", "Angelina");
-        properties.put("password", "angelinaInHollywood123");
-        properties.put("title", "Salt");
-        properties.put("url", "www.angelina.hollywood");
-        properties.put("errorMessage", "file has not been founded");
+//        Map<String, String> properties = new HashMap();
+//        properties.put("login", "Angelina");
+//        properties.put("password", "angelinaInHollywood123");
+//        properties.put("title", "Salt");
+//        properties.put("url", "www.angelina.hollywood");
+//        properties.put("errorMessage", "file has not been founded");
+        Properties properties = PropertiesProvider.getProperties();
         Map<String, String> appProperties = getAppProperties(properties);
         appProperties.forEach((k,v) -> System.out.println(k + " [" + v + "]"));
 //        System.out.println(appProperties.toString());
     }
-    public static Map<String, String> getAppProperties(Map<String, String> properties) {
+    public static Map<String, String> getAppProperties(Properties properties) {
         return properties.entrySet().stream()
-                .map(x -> new KeyValuePair(x.getKey(),
-                        (processPropertiesSecurely.apply(x.getKey(),shouldBeEncoded))))
+                .map(x -> new KeyValuePair((String) x.getKey(),
+                        (processPropertiesSecurely.apply((String) x.getKey(),shouldBeEncoded))))
                 .collect(Collectors.toMap(KeyValuePair::getKey, KeyValuePair::getValue));
     }
 }
